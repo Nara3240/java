@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Sell Product</title>
+</head>
+<body>
+    <script>
+        const products = [];
+        let addMore = true;
+        const exchangeRate = 4100;
+
+        while (addMore) {
+            let name = prompt("Enter product name (<= 20 characters):");
+            if (!name || name.length > 20) {
+                alert("Invalid product name! It must be 20 characters or less.");
+                continue;
+            }
+
+            let quantity = parseInt(prompt("Enter product quantity (>=1):"));
+            let price = parseFloat(prompt("Enter product price (>=0):"));
+            let discount = parseInt(prompt("Enter product discount (0-100):"));
+
+            if (!isNaN(quantity) && !isNaN(price) && !isNaN(discount) &&
+                quantity >= 1 && price >= 0 && discount >= 0 && discount <= 100) {
+                
+                let total = quantity * price * (1 - discount / 100);
+                products.push({ name, quantity, price, discount, total });
+            } else {
+                alert("Invalid input! Please try again.");
+                continue;
+            }
+
+            addMore = prompt("Do you want to add more products? (Y/N)").toLowerCase() === 'y';
+        }
+
+        console.log("------------------------------------------------------");
+        console.log("No.  Name          Quantity  Price ($)  Discount (%)  Total ($)");
+        console.log("------------------------------------------------------");
+
+        let subTotal = 0;
+        products.forEach((product, index) => {
+            console.log(`${index + 1}.  ${product.name.padEnd(12)}  ${product.quantity}        ${product.price.toFixed(2)}$       ${product.discount}%        ${product.total.toFixed(2)}$`);
+            subTotal += product.total;
+        });
+
+        console.log("------------------------------------------------------");
+        console.log(`Sub Total: ${subTotal.toFixed(2)}$`);
+        console.log(`Grand Total: ${subTotal.toFixed(2)}$`); 
+        console.log(`Grand Total: ${(subTotal * exchangeRate).toFixed(0)} riel`);
+    </script>
+</body>
+</html>
